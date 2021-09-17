@@ -41,3 +41,16 @@ export const TableData = styled.td`
         font-size: var(--font-large);
     }
 `
+
+export const NoData = styled.h1`
+    font-size: var(--font-small);
+    visibility: ${props => props.visibility};
+
+@media(min-width: ${MediaMedium}){
+    font-size: var(--font-large);
+}
+
+@media(min-width: ${MediaLarge}){
+    font-size: var(--font-big-large);
+}
+`

@@ -4,12 +4,15 @@ import axios from 'axios';
 import { Panel } from "../layout/ContainerPanel.js";
 import { Flex } from "../layout/Flex";
 import { Title } from "../layout/Title";
-import { Table, TableData, TableRow, TableTitleColumn } from "./styles";
+import { Table, TableData, TableRow, TableTitleColumn, NoData } from "./styles";
+
+import { AiFillDatabase } from 'react-icons/ai';
 
 //Panel with top cities surveyed and latest surveys done
 const PanelTopSearch = props => {
     const [topCities, setTopCities] = useState([]);
     const [latestCities, setLatestCities] = useState([]);
+    const [isItems, setIsItems] = useState('visible');
 
     //Updates the information in the tables if any city is searched
     useEffect(function (){
@@ -20,6 +23,11 @@ const PanelTopSearch = props => {
             })
             const response = await apiTop.get()
             setTopCities(response.data)
+            if(response.data.length === 0){
+                setIsItems('visible')
+            }else{
+                setIsItems('hidden')
+            }  
         }
         //updates table of latest searches
         async function getApiLatest(){
@@ -51,7 +59,8 @@ const PanelTopSearch = props => {
                     ))}
                     </tbody>
                 </Table>
-                <Title>Ultimas pesquisas</Title>
+                <NoData visibility={isItems}><AiFillDatabase /> Não há registros</NoData>
+                <Title>Últimas pesquisas</Title>
                 <Table>
                     <tbody>
                     <TableRow>
@@ -64,6 +73,7 @@ const PanelTopSearch = props => {
                     ))}
                     </tbody>
                 </Table>
+                <NoData visibility={isItems}><AiFillDatabase /> Não há registros</NoData>
             </Flex>
     </Panel>
     )
